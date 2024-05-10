@@ -186,7 +186,7 @@ vs.distribution(data)
 
 
     
-![png](output_11_1.png)
+![png](finding_donors_files/finding_donors_11_1.png)
     
 
 
@@ -211,7 +211,7 @@ vs.distribution(features_log_transformed, transformed = True)
 
 
     
-![png](output_13_1.png)
+![png](finding_donors_files/finding_donors_13_1.png)
     
 
 
@@ -229,7 +229,7 @@ plt.pyplot.show()
 
 
     
-![png](output_14_0.png)
+![png](finding_donors_files/finding_donors_14_0.png)
     
 
 
@@ -673,9 +673,9 @@ from sklearn.ensemble import RandomForestClassifier
 
 
 # TODO: Initialize the three models
-clf_A = DecisionTreeClassifier()
-clf_C = LogisticRegression()
-clf_D = RandomForestClassifier()
+clf_A = DecisionTreeClassifier(random_state=42)
+clf_B = LogisticRegression(random_state=42)
+clf_C = RandomForestClassifier(random_state=42)
 
 # TODO: Calculate the number of samples for 1%, 10%, and 100% of the training data
 # HINT: samples_100 is the entire training set i.e. len(y_train)
@@ -687,7 +687,7 @@ samples_1 = int(len(y_train)*0.01)
 
 # Collect results on the learners
 results = {}
-for clf in [clf_A, clf_C, clf_D]:
+for clf in [clf_A, clf_B, clf_C]:
     clf_name = clf.__class__.__name__
     results[clf_name] = {}
     for i, samples in enumerate([samples_1, samples_10, samples_100]):
@@ -715,7 +715,7 @@ vs.evaluate(results, accuracy, fscore)
 
 
     
-![png](output_33_2.png)
+![png](finding_donors_files/finding_donors_33_2.png)
     
 
 
@@ -756,9 +756,13 @@ Look at the graph at the bottom left from the cell above(the visualization creat
 
 When explaining your model, if using external resources please include all citations.
 
-The decision tree is  suitable for our case as we have many categories. The model will begin by dividing these categories into subcategories, and each category will then be further split into the next dominant category. This process continues until it forms a flowchart-like structure.
-
 **Answer:** 
+- Decision Trees is an AI algorthim that looks like a process chart or flow chart
+- each point in the graph ask a question the answer of the question determine the direction of the flow
+- it keeps flowing until it reach the target decistion 
+- we train the decision tree on dataset that shows the labels and it also show the result of the raw for example (pass,fall)
+- at the end of training the algorthim it learn the pattern of decisoin that lead the the target
+- after that we can use the model to make the predictions using the decions pattern that it learns from the training
 
 ### Implementation: Model Tuning
 Fine tune the chosen model. Use grid search (`GridSearchCV`) with at least one important parameter tuned with at least 3 different values. You will need to use the entire training set for this. In the code cell below, you will need to implement the following:
@@ -781,7 +785,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import make_scorer
 
 # TODO: Initialize the classifier
-clf = DecisionTreeClassifier()
+clf = DecisionTreeClassifier(random_state=42)
 
 # TODO: Create the parameters list you wish to tune, using a dictionary if needed.
 # HINT: parameters = {'parameter_1': [value1, value2], 'parameter_2': [value1, value2]}
@@ -814,13 +818,13 @@ print("Final F-score on the testing data: {:.4f}".format(fbeta_score(y_test, bes
 
     Unoptimized model
     ------
-    Accuracy score on testing data: 0.8196
-    F-score on testing data: 0.6300
+    Accuracy score on testing data: 0.8186
+    F-score on testing data: 0.6279
     
     Optimized Model
     ------
-    Final accuracy score on the testing data: 0.8525
-    Final F-score on the testing data: 0.7230
+    Final accuracy score on the testing data: 0.8532
+    Final F-score on the testing data: 0.7243
 
 
 ### Question 5 - Final Model Evaluation
@@ -854,11 +858,11 @@ Choose a scikit-learn classifier (e.g., adaboost, random forests) that has a `fe
 When **Exploring the Data**, it was shown there are thirteen available features for each individual on record in the census data. Of these thirteen records, which five features do you believe to be most important for prediction, and in what order would you rank them and why?
 
 **Answer:**
-- eduction
-- workclass
-- matirial status
-- sex
-- relashinship
+1. eduction
+2. workclass
+3. matirial status
+4. sex
+5. relashinship
 
 ### Implementation - Extracting Feature Importance
 Choose a `scikit-learn` supervised learning algorithm that has a `feature_importance_` attribute availble for it. This attribute is a function that ranks the importance of each feature when making predictions based on the chosen algorithm.
@@ -887,7 +891,7 @@ vs.feature_plot(importances, X_train, y_train)
 
 
     
-![png](output_51_0.png)
+![png](finding_donors_files/finding_donors_50_0.png)
     
 
 
